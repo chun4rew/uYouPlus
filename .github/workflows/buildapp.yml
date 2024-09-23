@@ -113,10 +113,10 @@ jobs:
       - name: Prepare YouTube iPA
         id: prepare_youtube
         run: |
+          brew install 7z
           wget "$YOUTUBE_URL" --no-verbose -O main/YouTube.ipa
           cd ${{ github.workspace }}/main
-          mv YouTube.ipa YouTube.zip
-          unzip -q YouTube.zip
+          7z x YouTube.ipa
           youtube_version=$(defaults read "$(pwd)/Payload/YouTube.app/Info" CFBundleVersion)
           echo "==> YouTube v$youtube_version downloaded!"
           sed -i '' "17s#.*#YOUTUBE_VERSION = ${youtube_version}#g" Makefile
